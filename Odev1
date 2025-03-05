@@ -14,10 +14,10 @@ CREATE TABLE Employees (
     EmployeeID INT PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
-    Age INT,
-    DepartmentID INT,
-    Salary DECIMAL(10,2),
-    JoinDate DATE,
+    Age INT NOT NULL,
+    DepartmentID INT NOT NULL,
+    Salary DECIMAL(10,2) NOT NULL CHECK (Salary > 0),
+    JoinDate DATE NOT NULL,
     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
 );
 
@@ -28,6 +28,9 @@ INSERT INTO Employees (EmployeeID, FirstName, LastName, Age, DepartmentID, Salar
 (4, 'Lisa', 'White', 35, 3, 70000, '2019-03-18'),
 (5, 'Mark', 'Black', 50, 1, 75000, '2015-11-05'),
 (6, 'Lucy', 'Green', 40, 2, 60000, '2017-10-10');
+
+-- Indexing DepartmentID in Employees table for optimization
+CREATE INDEX idx_department_id ON Employees (DepartmentID);
 
 -- 2. Belirli Kolonları Seçme
 -- Bu sorgu, Employees tablosundan sadece çalışanların adı (FirstName), soyadı (LastName) ve maaş bilgilerini (Salary) getirir.
