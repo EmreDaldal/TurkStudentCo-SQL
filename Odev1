@@ -1,0 +1,54 @@
+-- Departments Tablosu
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50) NOT NULL
+);
+
+INSERT INTO Departments (DepartmentID, DepartmentName) VALUES
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Finance');
+
+-- Employees Tablosu
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Age INT,
+    DepartmentID INT,
+    Salary DECIMAL(10,2),
+    JoinDate DATE,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Age, DepartmentID, Salary, JoinDate) VALUES
+(1, 'John', 'Doe', 30, 1, 55000, '2020-01-15'),
+(2, 'Jane', 'Smith', 45, 2, 65000, '2018-07-20'),
+(3, 'Sam', 'Brown', 28, 1, 52000, '2021-04-25'),
+(4, 'Lisa', 'White', 35, 3, 70000, '2019-03-18'),
+(5, 'Mark', 'Black', 50, 1, 75000, '2015-11-05'),
+(6, 'Lucy', 'Green', 40, 2, 60000, '2017-10-10');
+
+-- 2. Belirli Kolonları Seçme
+-- Bu sorgu, Employees tablosundan sadece çalışanların adı (FirstName), soyadı (LastName) ve maaş bilgilerini (Salary) getirir.
+SELECT FirstName, LastName, Salary FROM Employees;
+
+-- 3. DISTINCT Komutu ile Tekrarları Önleme
+-- Bu sorgu, Employees tablosundaki tekrar eden departman ID’lerini kaldırarak her departmanı yalnızca bir kez listeler.
+SELECT DISTINCT DepartmentID FROM Employees;
+
+-- 4. Belirli Bir Departmana Ait Çalışanları Listeleme
+-- Bu sorgu, sadece IT departmanında çalışan kişilerin bilgilerini getirir.
+SELECT * FROM Employees WHERE DepartmentID = 1;
+
+-- 5. Maaşa Göre Sıralama
+-- Bu sorgu, çalışanları maaşlarına göre en yüksekten en düşüğe sıralar (DESC).
+SELECT * FROM Employees ORDER BY Salary DESC;
+
+-- 6. Kolonları Birleştirme (Concatenation)
+-- Bu sorgu, FirstName ve LastName alanlarını birleştirerek "FullName" adıyla yeni bir kolon oluşturur ve maaş bilgileriyle birlikte listeler.
+-- MySQL veya PostgreSQL için:
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary FROM Employees;
+
+-- SQL Server için:
+SELECT FirstName + ' ' + LastName AS FullName, Salary FROM Employees;
