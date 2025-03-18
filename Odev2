@@ -1,0 +1,48 @@
+-- Invoice Tablosu Sorgulari --
+
+1. Tum NULL kayitlarin sayisini bulma:
+```sql
+SELECT COUNT(*)
+FROM Invoice
+WHERE invoice_id IS NULL
+AND customer_id IS NULL
+AND invoice_date IS NULL
+AND billing_address IS NULL
+AND billing_city IS NULL
+AND billing_state IS NULL
+AND billing_country IS NULL
+AND billingpostal_code IS NULL
+AND total IS NULL;
+-- Row sayisi: (buraya sorgu calistirildiktan sonra donen satir sayisini yaz)
+```
+Bu sorgu, tum sutunlari NULL olan kayitlari sayar.
+
+---
+
+2. Total degerinin iki katini gosterme ve siralama:
+```sql
+SELECT invoice_id, total AS eski_total, (total * 2) AS yeni_total
+FROM Invoice
+ORDER BY yeni_total DESC;
+```
+Bu sorgu:
+- `total` sutununun eski halini (`eski_total`) ve iki katini (`yeni_total`) gosterir.
+- Yeni degerlere gore buyukten kucuge siralama yapar.
+
+---
+
+3. Acik adres olusturma ve 2013 yili Agustos ayina gore filtreleme:
+```sql
+SELECT
+    invoice_id,
+    CONCAT(LEFT(billing_address, 3), '...', RIGHT(billing_address, 4)) AS "Acik Adres",
+    invoice_date
+FROM Invoice
+WHERE EXTRACT(YEAR FROM invoice_date) = 2013
+AND EXTRACT(MONTH FROM invoice_date) = 8;
+```
+Bu sorgu:
+- `billing_address` sutununun **ilk 3 karakterini ve son 4 karakterini** alip birlestirir.
+- **"Acik Adres"** adi altinda yeni bir sutun olusturur.
+- **2013 yili Agustos ayina** ait verileri filtreler.
+
