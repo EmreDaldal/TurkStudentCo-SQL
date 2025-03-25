@@ -1,0 +1,62 @@
+# Let's create the SQL file with queries and explanations
+
+queries = """
+Soru 1: Invoice Tablosu
+Soru: "USA" ülkesine ait, 2009 yılı içerisinde oluşturulmuş tüm faturaların (Invoice) toplamını listeleyen bir sorgu yazınız.
+Çözüm:
+Bu sorguda, "USA" ülkesine ait ve 2009 yılına ait faturaların toplamını hesaplıyoruz. 
+
+SQL Sorgusu:
+SELECT SUM(total) AS total_amount
+FROM Invoice
+WHERE billing_country = 'USA' 
+  AND YEAR(invoice_date) = 2009;
+
+Açıklama:
+- **SUM(total)**: Fatura tutarlarının toplamını hesaplamak için kullanılır.
+- **YEAR(invoice_date) = 2009**: 2009 yılına ait faturaları filtreler.
+- **billing_country = 'USA'**: USA ülkesine ait faturaları seçer.
+
+Soru 2: Track, PlaylistTrack ve Playlist Tablolarında JOIN
+Soru: Tüm parça (track) bilgilerini, bu parçaların ait olduğu playlisttrack ve playlist tablolarıyla birleştirerek (JOIN) listeleyen bir sorgu yazınız.
+Çözüm:
+Bu sorguda, **track**, **playlisttrack** ve **playlist** tablolarını JOIN ile birleştirip her parçanın ait olduğu playlist ile birlikte listeleme yapıyoruz.
+
+SQL Sorgusu:
+SELECT t.track_id, t.name AS track_name, pt.playlist_id, p.name AS playlist_name
+FROM track t
+JOIN playlisttrack pt ON t.track_id = pt.track_id
+JOIN playlist p ON pt.playlist_id = p.playlist_id;
+
+Açıklama:
+- **JOIN playlisttrack pt ON t.track_id = pt.track_id**: **track** ve **playlisttrack** tablolarını **track_id** ile birleştirir.
+- **JOIN playlist p ON pt.playlist_id = p.playlist_id**: **playlisttrack** ve **playlist** tablolarını **playlist_id** ile birleştirir.
+- Sonuçlar her parça için `track_id`, `track_name`, ait olduğu `playlist_id` ve `playlist_name` bilgilerini verir.
+
+Soru 3: Track, Album ve Artist Tablolarında JOIN
+Soru: "Let There Be Rock" adlı albüme ait tüm parçaları (Track) listeleyen, sanatçı (Artist) bilgisini de içeren bir sorgu yazınız. Ayrıca, sonuçları parça süresi (milliseconds) büyükten küçüğe sıralayınız.
+Çözüm:
+Bu sorgu ile "Let There Be Rock" albümüne ait parçaları sanatçı adıyla birlikte listeleyip, parçaları süresine göre sıralıyoruz.
+
+SQL Sorgusu:
+SELECT t.track_id, t.name AS track_name, a.title AS album_title, art.name AS artist_name, t.milliseconds
+FROM track t
+JOIN album a ON t.album_id = a.album_id
+JOIN artist art ON a.artist_id = art.artist_id
+WHERE a.title = 'Let There Be Rock'
+ORDER BY t.milliseconds DESC;
+
+Açıklama:
+- **JOIN album a ON t.album_id = a.album_id**: **track** ve **album** tablolarını **album_id** ile birleştirir.
+- **JOIN artist art ON a.artist_id = art.artist_id**: **album** ve **artist** tablolarını **artist_id** ile birleştirir.
+- **WHERE a.title = 'Let There Be Rock'**: Albüm ismi "Let There Be Rock" olan albüme ait parçaları seçer.
+- **ORDER BY t.milliseconds DESC**: Parçaları **milliseconds** sütununa göre büyükten küçüğe sıralar.
+
+"""
+
+# Save the queries and explanations into a .txt file
+file_path = "/mnt/data/SQL_Bootcamp_3rd_Week_Assignment.txt"
+with open(file_path, "w") as file:
+    file.write(queries)
+
+file_path
