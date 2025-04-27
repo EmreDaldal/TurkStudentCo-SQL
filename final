@@ -1,0 +1,65 @@
+-- Üyeler Tablosu (Members)
+CREATE TABLE Members (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+-- Eğitimler Tablosu (Courses)
+CREATE TABLE Courses (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    instructor_name VARCHAR(100)
+);
+
+-- Kategoriler Tablosu (Categories)
+CREATE TABLE Categories (
+    id SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+-- Eğitim ve Kategori İlişkisi Tablosu (CourseCategories)
+CREATE TABLE CourseCategories (
+    course_id BIGINT REFERENCES Courses(id) ON DELETE CASCADE,
+    category_id SMALLINT REFERENCES Categories(id) ON DELETE CASCADE,
+    PRIMARY KEY (course_id, category_id)
+);
+
+-- Katılımlar Tablosu (Enrollments)
+CREATE TABLE Enrollments (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    member_id BIGINT REFERENCES Members(id) ON DELETE CASCADE,
+    course_id BIGINT REFERENCES Courses(id) ON DELETE CASCADE,
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Sertifikalar Tablosu (Certificates)
+CREATE TABLE Certificates (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    certificate_code VARCHAR(100) UNIQUE NOT NULL,
+    issued_date DATE
+);
+
+-- Sertifika Atamaları Tablosu (CertificateAssignments)
+CREATE TABLE CertificateAssignments (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    member_id BIGINT REFERENCES Members(id) ON DELETE CASCADE,
+    certificate_id BIGINT REFERENCES Certificates(id) ON DELETE CASCADE,
+    assignment_date DATE
+);
+
+-- Blog Gönderileri Tablosu (BlogPosts)
+CREATE TABLE BlogPosts (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    publication_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    author_id BIGINT REFERENCES Members(id) ON DELETE CASCADE
+);
