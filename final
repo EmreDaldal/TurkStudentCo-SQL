@@ -63,3 +63,54 @@ CREATE TABLE BlogPosts (
     publication_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id BIGINT REFERENCES Members(id) ON DELETE CASCADE
 );
+
+# Çevrimiçi Eğitim Platformu Veritabanı
+
+Bu proje, PostgreSQL veritabanı yönetim sistemini kullanarak bir çevrimiçi eğitim platformunun veritabanı tasarımını içerir. Bu platformda kullanıcılar üye olabilir, eğitimlere katılabilir, sertifika alabilir ve blog gönderileri paylaşabilir.
+
+## Özellikler
+
+- Üye yönetimi (Kullanıcı adı, e-posta, şifre, profil bilgileri)
+- Eğitim yönetimi (Eğitimler, kategoriler)
+- Katılım yönetimi (Kullanıcıların eğitimlere katılımı)
+- Sertifika yönetimi (Tamamlanan eğitimler için sertifikalar)
+- Blog yönetimi (Kullanıcıların blog gönderileri)
+
+## Veritabanı Şeması
+
+Veritabanı, aşağıdaki tabloları içerir:
+- **Members**: Kullanıcı bilgileri
+- **Courses**: Eğitim bilgileri
+- **Categories**: Eğitim kategorileri
+- **Enrollments**: Katılım bilgileri
+- **Certificates**: Sertifika bilgileri
+- **CertificateAssignments**: Sertifika atamaları
+- **BlogPosts**: Blog gönderileri
+
+## Kullanım
+
+1. PostgreSQL kurulu olduğundan emin olun.
+2. SQL dosyasını çalıştırarak veritabanını oluşturun:
+    ```bash
+    psql -U postgres -f sql/schema.sql
+    ```
+3. Platforma bağlanın ve tabloları kullanmaya başlayın.
+
+## Katkı
+
+Bu projeye katkıda bulunmak isterseniz, lütfen bir pull request gönderin.
+
+# PostgreSQL dosyaları
+*.log
+*.sql
+*.csv
+
+# Sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE dosyaları
+.idea/
+.vscode/
+*.swp
+
